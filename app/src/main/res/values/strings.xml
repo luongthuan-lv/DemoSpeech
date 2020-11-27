@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">DemoSpeech</string>
+    <string name="ettPtText">Asia Park được xây dựng trên diện tích 565.694 mét vuông, tích hợp văn hóa Á Đông cực ấn tượng. Khu vui chơi giải trí nổi tiếng này được xây dựng tích hợp giữa công viên ngoài trời, kiến trúc châu Á, khu Sun Whell giao thoa giữa văn hóa hiện đại và truyền thống.</string>
+    <string name="tvwPtCountry">Language:</string>
+    <string name="tvwPtStyle">Style:</string>
+    <string name="tvwPtGender">Gender:</string>
+    <string name="tvwPtNaturalSampleRateHertz">NaturalSampleRateHertz:</string>
+    <string name="tvwPtPitch">Pitch Rate:</string>
+    <string name="tvwPtSpeakRate">Speak Rate:</string>
+    <string name="btnPtSpeechText">Speak</string>
+    <string name="btnPtSpeechResume">Resume</string>
+    <string name="btnPtSpeechPause">Pause</string>
+    <string name="btnPtSpeechStop">Stop</string>
+    <string name="btnPtRefresh">Refresh</string>
+</resources>
