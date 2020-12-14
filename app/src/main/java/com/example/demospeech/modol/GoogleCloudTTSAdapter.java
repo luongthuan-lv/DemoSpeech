@@ -1,5 +1,7 @@
 package com.example.demospeech.modol;
 
+import android.content.Context;
+
 import com.example.demospeech.googlecloudtts.GoogleCloudAPIConfig;
 import com.example.demospeech.googlecloudtts.GoogleCloudTTS;
 
@@ -14,8 +16,9 @@ import java.util.List;
 public class GoogleCloudTTSAdapter extends GoogleCloudTTS implements ISpeech, GoogleCloudTTS.ISpeakListener {
     private List<ISpeechListener> mSpeechListeners = new ArrayList<>();
 
-    public GoogleCloudTTSAdapter(GoogleCloudAPIConfig apiConfig) {
-        super(apiConfig);
+    // lấy context từ bên presenter rồi truyền qua bên GoogleCloudTTS
+    public GoogleCloudTTSAdapter(GoogleCloudAPIConfig apiConfig, Context context) {
+        super(context,apiConfig);
         addSpeakListener(this);
     }
 

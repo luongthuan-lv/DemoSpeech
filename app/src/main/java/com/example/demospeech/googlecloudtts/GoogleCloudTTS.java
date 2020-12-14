@@ -1,8 +1,13 @@
 package com.example.demospeech.googlecloudtts;
 
+import android.app.Service;
+import android.content.Context;
+import android.content.Intent;
 import android.media.MediaPlayer;
+import android.os.IBinder;
 import android.util.Log;
 
+import androidx.annotation.Nullable;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -24,7 +29,7 @@ import java.util.List;
  * Description:
  * Reference:
  */
-public class GoogleCloudTTS {
+public class GoogleCloudTTS extends Service {
     private static final String TAG = GoogleCloudTTS.class.getName();
 
     private List<ISpeakListener> mSpeakListeners = new ArrayList<>();
@@ -40,8 +45,11 @@ public class GoogleCloudTTS {
     private MediaPlayer mMediaPlayer;
 
     private int mVoiceLength = -1;
+    private Context mContext;
 
-    public GoogleCloudTTS(GoogleCloudAPIConfig apiConfig) {
+    // lấy context từ bên GoogleCloudTTSAdapter
+    public GoogleCloudTTS(Context context, GoogleCloudAPIConfig apiConfig) {
+        mContext = context;
         mApiConfig = apiConfig;
         mVoiceList = new VoiceList(mApiConfig);
     }
@@ -60,6 +68,12 @@ public class GoogleCloudTTS {
         return this;
     }
 
+    @Nullable
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
+    }
+
     public void start(String text) {
         if (mGoogleCloudVoice != null && mAudioConfig != null) {
             mMessage = text;
@@ -72,6 +86,7 @@ public class GoogleCloudTTS {
         } else {
             speakFail(text, new NullPointerException("GcpVoice or AudioConfig does not setting"));
         }
+
     }
 
     private Runnable runnableSend = new Runnable() {
@@ -100,12 +115,16 @@ public class GoogleCloudTTS {
                 public void onResponse(Response response) throws IOException {
                     if (response != null) {
                         Log.i(TAG, "onResponse code = " + response.code());
+
                         if (response.code() == 200) {
                             String text = response.body().string();
                             JsonElement jsonElement = new JsonParser().parse(text);
                             JsonObject jsonObject = jsonElement.getAsJsonObject();
-
                             if (jsonObject != null) {
+                                // send broadcast sang main để báo tắt loading (cần truyền context sang màn này)
+                                Intent intent = new Intent("hideLoading");
+                                mContext.sendBroadcast(intent);
+
                                 String json = jsonObject.get("audioContent").toString();
                                 json = json.replace("\"", "");
                                 playAudio(json);
@@ -193,6 +212,7 @@ public class GoogleCloudTTS {
     public void loadVoiceList() {
         mVoiceList.start();
     }
+
 
     public interface ISpeakListener {
         void onSuccess(String message);

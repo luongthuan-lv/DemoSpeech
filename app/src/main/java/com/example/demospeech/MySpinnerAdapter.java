@@ -2,6 +2,8 @@ package com.example.demospeech;
 
 import android.content.Context;
 import android.database.DataSetObserver;
+import android.os.Build;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -77,7 +79,6 @@ public class MySpinnerAdapter implements SpinnerAdapter {
         TextView tvInfo;
 
         tvInfo = convertView.findViewById(R.id.tvInfo);
-
 
         tvInfo.setText(LanguageList.get(position).getLanguageName());
 

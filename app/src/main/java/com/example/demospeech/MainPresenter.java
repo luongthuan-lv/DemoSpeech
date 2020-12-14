@@ -1,5 +1,6 @@
 package com.example.demospeech;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.example.demospeech.googlecloudtts.AudioConfig;
@@ -33,7 +34,6 @@ public class MainPresenter implements MainContract.IPresenter, VoiceList.IVoiceL
     private GoogleCloudTTSAdapter mGoogleCloudTTSAdapter;
     private String languageCode;
     private String voiceName;
-
     public MainPresenter(MainContract.IView view,String languageCode,String voiceName) {
         // ioc
         mView = view;
@@ -46,7 +46,7 @@ public class MainPresenter implements MainContract.IPresenter, VoiceList.IVoiceL
     public void onCreate() {
         mSpeechManager = new SpeechManager();
 
-        mGoogleCloudTTSAdapter = new GoogleCloudTTSAdapter(mApiConfig);
+        mGoogleCloudTTSAdapter = new GoogleCloudTTSAdapter(mApiConfig,mView.getContext());
         mGoogleCloudTTSAdapter.addVoiceListener(this);
         loadGoogleCloudTTS();
 
